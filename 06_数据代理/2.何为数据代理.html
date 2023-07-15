@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>何为数据代理</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+</body>
+
+
+<script type="text/javascript">
+    let obj = {x:100};
+    let obj2 = {y:200};
+
+    Object.defineProperties(obj2,'x',{
+        get(){
+            return obj.x;
+        },
+        set(value){
+            obj.x = value;
+        }
+    });
+</script>
+
+</html>
