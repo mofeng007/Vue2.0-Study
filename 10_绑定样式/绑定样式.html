@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绑定样式</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<style>
+    .basic{
+        height: 250px;
+        border: 1px solid ;
+    }
+
+    .happy{
+        background-color: red;
+    }
+    .sad{
+        background-color: green;
+    }
+    .normal{
+        background-color: aqua;
+    }
+
+    .aa{
+        border-radius: 50px;
+    }
+    .aa1{
+        text-align: center;
+    }
+    .aa2{
+        font-size: 100px;
+        color: orange;
+    }
+</style>
+<body>
+
+    <!-- 
+        绑定样式：
+           1.class样式
+               写法：class='xxx' xxx可以是字符串、对象、数组。
+                   字符串写法适用于：类名不确定，要动态获取。
+                   对象写法适用于：要绑定多个样式，个数不确定，名字也不确定。
+                   数组写法适用于：要绑定多个样式，个数确定，名字也确定，但不确定用不用
+           2.style样式
+               :style="{fontSize:xxx}"其中xxx是动态值。
+               :style="[a,b]"其中a、b是样式对象。       
+
+      -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- 绑定class样式--字符串写法，适用于样式的类名不确定，需要动态指定 -->
+        <div class="basic" :class="mood" @click="changeMood">{{name}}</div><br/><br/>
+
+        <!-- 绑定class样式--数组写法，要绑定的样式个数不确定，名字也不确定-->
+        <div class="basic" :class="classArr">{{name}}</div>
+ 
+        <!-- 绑定class样式--对象写法，要绑定的样式个数确定，名字也确定，但需要动态指定用不用 -->
+        <div class="basic" :class="classObj">{{name}}</div>
+
+        <!-- 绑定style样式--对象写法 -->
+        <div class="basic" :style="styleObj">{{name}}</div>
+
+        <!-- 绑定style样式--数组写法 -->
+        <div class="basic" :style="styleArr">{{name}}</div>
+
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+   let vm = new Vue({
+        el:'#root',
+        data(){
+            return{
+                name:'邱邱',
+                mood:'normal',
+                classArr:['aa','aa1','aa2'],
+                classObj:{
+                    aa:false,
+                    aa1:true,
+                    aa2:true
+                },
+                styleObj:{
+                    fontSize:'40px',
+                    color:'red',
+                },
+                styleArr:[
+                    {
+                        fontSize:'40px',
+                        color:'blue',
+                    },
+                    {
+                        background:'red'
+                    }
+                ]
+            }
+        },
+        methods: {
+            changeMood(){
+                let arr = ['happy','sad','normal'];
+                // 0-2随机数，向下取整
+                let index =  Math.floor(Math.random()*3);
+                this.mood = arr[index];
+            }
+        },
+    })
+    
+</script>
+
+</html>

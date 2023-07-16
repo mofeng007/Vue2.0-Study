@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本列表</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        v-for指令
+           1.用于展示列表数据
+           2.语法：v-for="(item,index) in xxx" :key="index"
+           3.可遍历：数组、对象、字符串(用的少)、指定次数(用的少)
+     -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>Hello {{name}}</h1>
+
+        <!-- 遍历数组 -->
+        <h2>人员列表</h2>
+        <ul>
+            <li v-for="p in persons" :key="p.id">
+                {{p.name}}-{{p.age}}岁
+            </li>
+        </ul>
+
+        <!-- 遍历对象 -->
+        <h2>汽车信息</h2>
+        <ul>
+            <li v-for="(c,k) in car" :key="k">
+                {{k}}--{{c}}
+            </li>
+        </ul>
+
+        <!-- 遍历字符串 -->
+        <h2>测试遍历字符串</h2>
+        <ul>
+            <li v-for="(char,k) in str" :key="k">
+                {{k}}--{{char}}
+            </li>
+        </ul>
+
+        <!-- 遍历指定次数 -->
+        <h2>测试遍历指定次数</h2>
+        <ul>
+            <li v-for="(number,k) in 5" :key="k">
+                {{k}}--{{number}}
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    new Vue({
+        el:'#root',
+        data(){
+            return{
+                name:'邱邱',
+                persons:[
+                    {id:'001',name:'张三',age:14},
+                    {id:'002',name:'李四',age:24},
+                    {id:'003',name:'王五',age:19}
+                ],
+                car:{
+                    name:'奥迪',
+                    price:'180W',
+                    color:'黑色'
+                },
+                str:'hello'
+            }
+        }
+    })
+    
+</script>
+
+</html>
