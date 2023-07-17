@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+    <style>
+        .demo {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">点我创建一个input框</button><br />
+    <script>
+        let btn = document.getElementById('btn');
+        btn.onclick = () => {
+            let input = document.createElement('input');
+            input.className = 'demo'
+            document.body.appendChild(input);
+
+            input.focus();//本行放在 document.body.appendChild(input);  之后才会奏效
+            input.parentElement.style.background='skyblue';
+        };
+    </script>
+
+</body>
+
+</html>

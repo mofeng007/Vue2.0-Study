@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤器</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script src="../js/day.js"></script>
+</head>
+<body>
+    <!-- 
+        过滤器：
+           定义：对要显示的数据进行特定格式化后再显示（适用于一些简单逻辑的处理）
+           语法：
+               1.注册过滤器： Vue.filter('name',callback) 或 new Vue(filters:{})
+               2.使用过滤器：{{xxx | 过滤器名}} 或 v-bind:属性 = "xxx | 过滤器名"
+           备注：
+               1.过滤器也可以接收额外参数、多个过滤器也可以串联
+               2.并没有改变原本的数据，是产生新的对应的数据    
+     -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>显示格式化后的时间</h2>
+        <h3>时间戳：{{time}}</h3>
+        <!-- 计算属性实现 -->
+        <h3>现在是：{{fmTime}}</h3>
+        <!-- methods实现 -->
+        <h3>现在是：{{getFmTime()}}</h3>
+        <!-- 过滤器实现 -->
+        <h3>现在是：{{time | timeFormater}}</h3>
+        <!-- 过滤器实现（传参） -->
+        <h3>现在是：{{time | timeFormater('YYYY年MM月DD日 HH:MM') | mySlice}}</h3>
+        <hr/>
+        <h3 :x="msg | mySlice">去死</h3>
+        <input type="text" v-model="msg">
+    </div>
+
+    <div id="root2">
+        <h2>{{name | mySlice}}</h2>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+    //全局过滤器
+    Vue.filter('mySlice',function(val){
+        return val.slice(0,4)
+    });
+
+
+    new Vue({
+        el:'#root',
+        data(){
+            return{
+                time:1689580643621,  //时间戳
+                msg:'你好，该死的人生！'
+            }
+        },
+        computed:{
+            fmTime(){
+                return dayjs(this.time).format('YYYY年MM月DD日 HH:MM')
+            }
+        },
+        methods: {
+            getFmTime(){
+                return dayjs(this.time).format('YYYY年MM月DD日 HH:MM')
+            }
+        },
+        filters:{
+            timeFormater:function(val){
+                return dayjs(val).format('YYYY年MM月DD日 HH:MM')
+            },
+            mySlice(val){
+                return val.slice(0,4)
+            }
+        }
+    })
+    
+    new Vue({
+        el:'#root2',
+        data:{
+            name:'hello,qiuqiu!'
+        }
+    })
+</script>
+
+</html>
