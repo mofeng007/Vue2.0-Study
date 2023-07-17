@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问题</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 问题在55行，修改信息失败 -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>Hello {{name}}</h1>
+
+        <!-- 遍历数组 -->
+        <h2>人员列表</h2>
+        <button @click="updateMdm">更新马冬梅的信息</button>
+        <ul>
+            <li v-for="p in persons" :key="p.id">
+                {{p.name}}-{{p.age}}-{{p.sex}}
+            </li>
+        </ul>
+
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+  let vm = new Vue({
+        el: '#root',
+        data() {
+            return {
+                name: '邱邱',
+                persons: [
+                    { id: '001', name: '马冬梅', age: 44, sex: '女' },
+                    { id: '002', name: '周冬雨', age: 24, sex: '女' },
+                    { id: '003', name: '周杰伦', age: 19, sex: '男' },
+                    { id: '004', name: '温兆伦', age: 35, sex: '男' }
+                ]
+            }
+        },
+        methods: {
+            updateMdm(){
+                // this.persons[0].name = '马老师',  //奏效
+                // this.persons[0].age = 999,  //奏效
+                // this.persons[0].sex = '男'  //奏效
+
+                // this.persons[0] = {name :'马老师',age :999,sex : '男'}; //无法奏效
+
+                this.persons.splice(0,1,{id:'001',name :'马老师',age :999,sex : '男'})
+            }
+        },
+    })
+
+</script>
+
+</html>

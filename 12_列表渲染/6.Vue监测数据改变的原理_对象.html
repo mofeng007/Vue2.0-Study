@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue监测数据改变的原理_对象</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>校名：{{name}}</h1>
+        <h1>地址：{{address}}</h1>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    let vm = new Vue({
+        el: '#root',
+        data() {
+            return {
+                name: '清华',
+                address: '北京',
+                student:{
+                    name:'tom',
+                    age:{
+                        rAge:40,
+                        sAge:20,
+                    },
+                    friends:[
+                        {name:'jerry',age:35}
+                    ]
+                }
+            }
+        }
+    })
+
+</script>
+
+</html>

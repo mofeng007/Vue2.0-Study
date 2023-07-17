@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>总结Vue数据监测</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        Vue监视数据的原理：
+           1.Vue会监视data中所有层次的数据。
+
+           2.如何监测对象中的数据？
+                通过setter实现监视，且要在new Vue时传入要监测的数据。
+                   (1).对象中后追加的属性，Vue默认不做响应式处理
+                   (2).如需给后添加的属性做响应式，请使用如下API：
+                       Vue.set(target, propertyName/index, value) 或
+                       vm.$set(target, propertyName/index, value)
+
+           3.如何监测数组中的数据？
+                通过包裹数组更新元素的方法实现，本质就是做了两件事：
+                   (1).调用原生对应的方法对数组进行更新。
+                   (2).重新解析模板，进而更新页面。
+                   
+           4.在Vue修改数组中的某个元素一定要用如下方法：
+                1.使用这些API：push()、pop()、shift()、unshift()、splice()、sort()、reverse()
+                2.Vue.set 或 vm$.set
+
+           特别注意：Vue.set() 和 vm$.set() 不能给vm 或 vm 的根数据对象添加属性！！！  
+
+           小bug：
+                当修改性别按钮是 <button @click="student.sex= '未知'">修改性别</button><br /> 时
+                如果先点击改变性别按钮，就会导致两个按钮都失效，这是为什么？
+                这是因为改变按钮的点击事件会直接修改学生对象的性别属性，而不是通过调用Vue实例的方法来进行修改。
+                由于Vue.js的响应式系统是基于依赖追踪的，当属性被直接修改时，Vue无法追踪到这个变化，因此无法更新相关的视图。
+                当改变性别按钮被点击后，学生对象的性别属性被修改为"未知"，但Vue无法感知到这个变化。因此，此后无论是点添加性别按钮还
+                是修改性别按钮，都无法触发Vue的响应式更新，导致两个按钮都失效。
+
+                解决方法：
+                为了解决这个问题，可以使用Vue的set方法来修改学生对象的性别属性，这样Vue可以追踪到属性的变化并更新相关的视图。
+     -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>学生信息</h1>
+        <button @click="student.age++">年龄加一岁</button><br />
+        <button @click="addSex">添加一个性别属性，默认值是男</button><br />
+        <button @click="updateSex">修改性别</button><br />
+        <button @click="addFrend">列表首位添加一个朋友</button><br />
+        <button @click="updateFirstFrendName">修改第一个朋友名字为张三</button><br />
+        <button @click="addHobby">添加一个爱好</button><br />
+        <button @click="updateFirstHobby">修改第一个爱好为开车</button><br />
+        <button @click="removeSmoke">过滤掉爱好中的抽烟</button>
+
+        <h1>姓名：{{student.name}}</h1>
+        <h1>年龄：{{student.age}}</h1>
+        <h1 v-show="student.sex">性别：{{student.sex}}</h1>
+        <h2>朋友们</h2>
+        <ul>
+            <li v-for="f in student.friends" ::key="index">
+                {{f.name}}--{{f.age}}
+            </li>
+        </ul>
+        <h2>爱好</h2>
+        <ul>
+            <li v-for="h in student.hobby" ::key="index">
+                {{h}}
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    new Vue({
+        el: '#root',
+        data() {
+            return {
+                student: {
+                    name: 'tom',
+                    // sex:'男',
+                    age: 18,
+                    friends: [
+                        { name: 'jerry', age: 35 },
+                        { name: 'tony', age: 45 }
+                    ],
+                    hobby: ['抽烟', '喝酒', '烫头'],
+                },
+            }
+        },
+        methods: {
+            addSex() {
+                Vue.set(this.student, "sex", "男")
+            },
+            updateSex() {
+                this.$set(this.student, "sex", "未知")
+            },
+            addFrend() {
+                this.student.friends.unshift({ name: 'jack', age: 88 })
+            },
+            updateFirstFrendName() {
+                this.student.friends[0].name = '张三'
+            },
+            addHobby() {
+                this.student.hobby.push("唱跳Rap")
+            },
+            updateFirstHobby() {
+                // this.student.hobby.splice(0,1,"开车")
+                // Vue.set(this.student.hobby,0,"开车")
+                this.$set(this.student.hobby, 0, "开车")
+            },
+            removeSmoke() {
+                this.student.hobby = this.student.hobby.filter((h) => {
+                    return h !== "抽烟"
+                })
+            }
+        },
+    })
+
+</script>
+
+</html>
