@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的嵌套</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <app></app>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    // 注册student组件
+    let student = Vue.extend({
+        template: `
+        <div>
+            <h2>学生姓名：{{studentName}}</h2>
+            <h2>学生年龄：{{age}}</h2>
+        </div>   
+        `,
+        data() {
+            return {
+                studentName: '李华',
+                age: 18
+            }
+        }
+    })
+
+    let hello = Vue.extend({
+        template: `
+        <div>
+            <h1>{{msg}}</h1>
+        </div>
+        `,
+        data() {
+            return {
+                msg:'嘿嘿嘿，你好！'
+            }
+        }
+    })
+
+    let school = Vue.extend({
+        // name:'hah',
+        template: `
+        <div>
+           <h2>学校名称：{{schoolName}}</h2>
+           <h2>学校地址：{{address}}</h2>
+           <student></student>
+           <button @click='showName'>点我提示学校名</button>
+        </div>   
+        `,
+        data() {
+            return {
+                schoolName: '清华',
+                address: '北京',
+            }
+        },
+        methods: {
+            showName() {
+                alert(this.schoolName)
+            }
+        },
+        components: {
+            student,
+        }
+    });
+
+    // 定义app组件
+    let app = Vue.extend({
+        template:`
+        <div>
+            <school></school>
+            <hello></hello>
+        </div>    
+        `,
+        components:{
+            hello,
+            school
+        }
+    })
+
+    new Vue({
+        el: '#root',
+        components: {
+            app
+        }
+    })
+
+</script>
+
+</html>

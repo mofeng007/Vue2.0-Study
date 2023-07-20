@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueComponent</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        关于VueComponent：
+            1.school组件本质是一个名为VueComponent的构造函数，且不是程序员定义的，是Vue.extend生产的
+
+            2.我们只需要写<school></school>或<school/>，Vue解析时会帮我们创建school组件的实例对象，
+              即Vue帮我们执行的：new VueComponent(options)。
+
+            3.特别注意：每次调用Vue.extend，返回的都是一个全新的VueComponent！！！
+            
+            4.关于this指向：
+                (1).组件配置中：
+                       data函数、methods中的函数、watch中的函数、computed中的函数，它们的this均是【VueComponent实例对象】   
+                (2).new Vue(options)配置中：
+                       data函数、methods中的函数、watch中的函数、computed中的函数，它们的this均是【Vue实例对象】
+
+            5. VueComponent的实例对象，以后简称vc(也可以称为：组件实例对象)。
+                    Vue的实例对象，以后简称vm          
+     -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <school></school>
+        <hello></hello>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    let school = Vue.extend({
+        // name:'hah',
+        template: `
+        <div>
+           <h2>学校名称：{{schoolName}}</h2>
+           <h2>学校地址：{{address}}</h2>
+           <button @click='showName'>点我提示学校名</button>
+        </div>   
+        `,
+        data() {
+            return {
+                schoolName: '清华',
+                address: '北京',
+            }
+        },
+        methods: {
+            showName() {
+                alert(this.schoolName)
+                console.log('$$$', this)
+            }
+        },
+    })
+
+    let hello = Vue.extend({
+        template: `
+        <div>
+            <h1>{{msg}}</h1>
+        </div>
+        `,
+        data() {
+            return {
+                msg: '嘿嘿嘿，你好！'
+            }
+        }
+    })
+
+    console.log('@@@', school)
+    console.log('###', hello)
+
+    let vm = new Vue({
+        el: '#root',
+        components: {
+            school,
+            hello
+        }
+    })
+
+    console.log('%%%',vm)
+
+
+</script>
+
+</html>

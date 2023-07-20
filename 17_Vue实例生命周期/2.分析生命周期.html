@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析生命周期</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>Hello {{name}}</h1>
+        <h2>当前的n值是：{{n}}</h2>
+        <button @click="addN">点我n++</button>
+        <button @click="bye">点我销毁vm</button>
+        <img src="../image/Capture001.png">
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //设置为 false 以阻止 vue 在启动时生成生产提示。
+
+    new Vue({
+        el: '#root',
+        data() {
+            return {
+                name: '邱邱',
+                n: 0
+            }
+        },
+        methods: {
+            addN() {
+                this.n++
+            },
+            bye() {
+                console.log("销毁！")
+                this.$destroy()
+            }
+        },
+        beforeCreate() {
+            console.log('beforeCreate');
+            console.log(this);
+            // debugger;
+        },
+        created() {
+            console.log('created');
+            console.log(this);
+        },
+        beforeMount() {
+            console.log('beforeMount');
+            console.log(this);
+            // debugger;
+        },
+        mounted() {
+            console.log('mounted');
+            console.log(this);
+            // debugger;
+        },
+        // 面试：在哪个生命周期钩子中，页面和数据尚未保持同步，就是beforeUpdate
+        beforeUpdate() {
+            console.log('beforeUpdate');
+            console.log(this.n);
+            // debugger;
+        },
+        updated() {
+            console.log('updated');
+            console.log(this.n);
+            // debugger;
+        },
+        beforeDestroy() {
+            console.log('beforeDestroy');
+            this.addN()
+        },
+        destroyed() {
+            console.log('destroyed');
+        },
+    })
+
+</script>
+
+</html>
