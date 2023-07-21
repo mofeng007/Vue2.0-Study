@@ -5,11 +5,12 @@
     <h2>学校性别：{{ sex }}</h2>
     <h2>学生年龄：{{ age }}</h2>
     <button @click="change">尝试修改传过来的数据</button>
-    <!-- <button @click="showName">点击展示学生姓名</button> -->
+    <button @click="showName">点击展示学生姓名</button>
   </div>
 </template>
 
 <script>
+import {hunhe,hunhe2} from '../mixin'
 export default {
   name: "Student",
   data() {
@@ -25,6 +26,7 @@ export default {
       this.age ++;
     },
   },
+  mixins:[hunhe,hunhe2]
 };
 </script>
 
